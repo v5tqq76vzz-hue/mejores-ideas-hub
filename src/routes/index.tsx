@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { services, packs, mxn } from "@/lib/catalog";
+import { services, packs, mxn, servicePages, type ServicePageId } from "@/lib/catalog";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -78,7 +78,7 @@ function Index() {
         </div>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {services.slice(0, 6).map((s) => (
-            <Link key={s.id} to="/servicios" className="group rounded-2xl border bg-card p-6 shadow-card transition hover:-translate-y-1 hover:shadow-elegant">
+            <Link key={s.id} to={servicePages[s.id as ServicePageId] ?? "/servicios"} className="group rounded-2xl border bg-card p-6 shadow-card transition hover:-translate-y-1 hover:shadow-elegant">
               <div className="text-3xl">{s.icon}</div>
               <div className="mt-4 font-display text-lg font-bold">{s.name}</div>
               <p className="mt-2 text-sm text-muted-foreground">{s.desc}</p>
