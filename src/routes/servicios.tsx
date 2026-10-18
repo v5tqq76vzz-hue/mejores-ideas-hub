@@ -1,7 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { PageHero } from "@/components/site/SiteShell";
-import { services, packs, mxn, quoteTotals, PROMO_CODE, whatsapp } from "@/lib/catalog";
+import { services, packs, mxn, quoteTotals, PROMO_CODE, whatsapp, servicePages, type ServicePageId } from "@/lib/catalog";
 import { useCart } from "@/lib/cart";
 
 export const Route = createFileRoute("/servicios")({
