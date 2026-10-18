@@ -106,7 +106,7 @@ function Servicios() {
             Confirmar pedido →
           </Link>
           <a href={whatsapp(msg)} target="_blank" rel="noreferrer"
-            className={`mt-5 block rounded-full bg-success py-3 text-center font-semibold text-primary-foreground ${cart.items.length ? "" : "pointer-events-none opacity-50"}`}>
+            className={`mt-2 block rounded-full bg-success py-3 text-center font-semibold text-primary-foreground ${cart.items.length ? "" : "pointer-events-none opacity-50"}`}>
             Enviar cotización por WhatsApp
           </a>
         </aside>
