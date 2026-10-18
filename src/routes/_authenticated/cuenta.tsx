@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { mxn } from "@/lib/catalog";
 import type { OrderItem } from "@/lib/orders";
+import { DesignList } from "@/components/editor/DesignList";
 
 export const Route = createFileRoute("/_authenticated/cuenta")({
   head: () => ({
@@ -67,6 +68,8 @@ function Cuenta() {
           ))}
         </div>
       )}
+      <h2 className="mt-10 text-xl font-bold">Mis bocetos</h2>
+      <DesignList userId={uid} />
     </div>
   );
 }
