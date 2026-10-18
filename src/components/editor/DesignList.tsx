@@ -12,7 +12,7 @@ function Thumb({ d }: { d: Design }) {
   return <div className="grid h-32 place-items-center bg-muted">{src && <img src={src} alt="" className="max-h-28 max-w-full shadow-card" />}</div>;
 }
 
-export function DesignList({ admin, userId }: { admin?: boolean; userId?: string }) {
+export function DesignList({ admin, userId }: { admin?: boolean; userId?: string | undefined }) {
   const qc = useQueryClient();
   const key = ["designs", admin ? "all" : userId];
   const { data = [], isLoading } = useQuery({

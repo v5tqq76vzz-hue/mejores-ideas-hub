@@ -5,12 +5,12 @@ import { useAuth } from "@/lib/auth";
 import { whatsapp } from "@/lib/catalog";
 import { FORMATS, FONTS, PALETTE, TEMPLATES, blank, renderToCanvas, uid, type Design, type El, type FormatKey } from "@/lib/editor";
 
-type Props = { designId?: string };
+type Props = { designId?: string | undefined };
 
 export function DesignEditor({ designId }: Props) {
   const { session } = useAuth();
   const nav = useNavigate();
-  const [d, setD] = useState<Design>(TEMPLATES[0].make());
+  const [d, setD] = useState<Design>(() => TEMPLATES[0]!.make());
   const [format, setFormat] = useState<FormatKey>("post");
   const [title, setTitle] = useState("Mi boceto");
   const [sel, setSel] = useState<string | null>(null);
@@ -44,7 +44,7 @@ export function DesignEditor({ designId }: Props) {
   const layer = (dir: 1 | -1) => setD((x) => {
     const i = x.els.findIndex((e) => e.id === sel); const j = i + dir;
     if (i < 0 || j < 0 || j >= x.els.length) return x;
-    const els = [...x.els]; [els[i], els[j]] = [els[j], els[i]]; return { ...x, els };
+    const els = [...x.els]; const a = els[i]!; els[i] = els[j]!; els[j] = a; return { ...x, els };
   });
   const pickFormat = (f: FormatKey) => {
     setFormat(f);
