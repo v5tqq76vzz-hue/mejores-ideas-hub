@@ -1,7 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { PageHero } from "@/components/site/SiteShell";
-import { services, packs, mxn, quoteTotals, PROMO_CODE, whatsapp } from "@/lib/catalog";
+import { services, packs, mxn, quoteTotals, PROMO_CODE, whatsapp, servicePages, type ServicePageId } from "@/lib/catalog";
 import { useCart } from "@/lib/cart";
 
 export const Route = createFileRoute("/servicios")({
@@ -49,6 +49,7 @@ function Servicios() {
                 <div key={s.id} className="flex flex-col rounded-2xl border bg-card p-5 shadow-card">
                   <div className="text-3xl">{s.icon}</div>
                   <div className="mt-3 font-display font-bold">{s.name}</div>
+                  {s.id in servicePages && <Link to={servicePages[s.id as ServicePageId]} className="text-xs font-semibold text-primary">Ver detalles y opciones →</Link>}
                   <p className="mt-1 flex-1 text-sm text-muted-foreground">{s.desc}</p>
                   <div className="mt-4 flex items-center justify-between gap-2">
                     <span className="font-bold text-primary">{mxn(s.price)}{s.unit && <small className="font-normal text-muted-foreground"> / {s.unit}</small>}</span>
@@ -101,8 +102,11 @@ function Servicios() {
             <div className="flex justify-between pt-2 text-lg font-bold"><dt>Total</dt><dd>{mxn(t.total)}</dd></div>
             <div className="flex justify-between text-primary"><dt>Anticipo 50%</dt><dd className="font-semibold">{mxn(t.deposit)}</dd></div>
           </dl>
+          <Link to="/pago" className={`mt-5 block rounded-full bg-primary py-3 text-center font-semibold text-primary-foreground shadow-elegant ${cart.items.length ? "" : "pointer-events-none opacity-50"}`}>
+            Confirmar pedido →
+          </Link>
           <a href={whatsapp(msg)} target="_blank" rel="noreferrer"
-            className={`mt-5 block rounded-full bg-success py-3 text-center font-semibold text-primary-foreground ${cart.items.length ? "" : "pointer-events-none opacity-50"}`}>
+            className={`mt-2 block rounded-full bg-success py-3 text-center font-semibold text-primary-foreground ${cart.items.length ? "" : "pointer-events-none opacity-50"}`}>
             Enviar cotización por WhatsApp
           </a>
         </aside>

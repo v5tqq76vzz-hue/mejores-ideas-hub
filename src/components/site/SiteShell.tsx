@@ -9,6 +9,7 @@ const nav = [
   { to: "/servicios", label: "Servicios" },
   { to: "/paquetes", label: "Paquetes" },
   { to: "/dominios", label: "Dominios" },
+  { to: "/boceto", label: "Diseñar" },
 ] as const;
 
 function Header() {
@@ -67,7 +68,14 @@ function Footer() {
           <p className="mt-3">Jocotitlán, Estado de México</p>
           <p>Lunes a sábado · 9:00 – 19:00</p>
         </div>
-        <div className="flex flex-col gap-2 text-sm opacity-80">
+        <div className="grid grid-cols-2 gap-2 text-sm opacity-80">
+          <Link to="/web">Páginas web</Link>
+          <Link to="/logo">Logotipos</Link>
+          <Link to="/identidad">Identidad</Link>
+          <Link to="/tarjetas">Tarjetas</Link>
+          <Link to="/banners">Banners</Link>
+          <Link to="/enlaces">Bio Links</Link>
+          <Link to="/boceto">Diseñar boceto</Link>
           <Link to="/servicios">Servicios</Link>
           <Link to="/paquetes">Paquetes</Link>
           <Link to="/dominios">Dominios</Link>

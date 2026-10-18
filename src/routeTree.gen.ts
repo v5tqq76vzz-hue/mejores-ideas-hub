@@ -10,19 +10,57 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BannersRouteImport } from './routes/banners'
+import { Route as BocetoRouteImport } from './routes/boceto'
 import { Route as DominiosRouteImport } from './routes/dominios'
+import { Route as EnlacesRouteImport } from './routes/enlaces'
+import { Route as IdentidadRouteImport } from './routes/identidad'
+import { Route as LogoRouteImport } from './routes/logo'
+import { Route as PagoRouteImport } from './routes/pago'
 import { Route as PaquetesRouteImport } from './routes/paquetes'
 import { Route as PoliticaCookiesRouteImport } from './routes/politica-cookies'
 import { Route as ServiciosRouteImport } from './routes/servicios'
+import { Route as TarjetasRouteImport } from './routes/tarjetas'
+import { Route as WebRouteImport } from './routes/web'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BannersRoute = BannersRouteImport.update({
+  id: '/banners',
+  path: '/banners',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BocetoRoute = BocetoRouteImport.update({
+  id: '/boceto',
+  path: '/boceto',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DominiosRoute = DominiosRouteImport.update({
   id: '/dominios',
   path: '/dominios',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EnlacesRoute = EnlacesRouteImport.update({
+  id: '/enlaces',
+  path: '/enlaces',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IdentidadRoute = IdentidadRouteImport.update({
+  id: '/identidad',
+  path: '/identidad',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LogoRoute = LogoRouteImport.update({
+  id: '/logo',
+  path: '/logo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PagoRoute = PagoRouteImport.update({
+  id: '/pago',
+  path: '/pago',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PaquetesRoute = PaquetesRouteImport.update({
@@ -40,50 +78,125 @@ const ServiciosRoute = ServiciosRouteImport.update({
   path: '/servicios',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TarjetasRoute = TarjetasRouteImport.update({
+  id: '/tarjetas',
+  path: '/tarjetas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WebRoute = WebRouteImport.update({
+  id: '/web',
+  path: '/web',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/banners': typeof BannersRoute
+  '/boceto': typeof BocetoRoute
   '/dominios': typeof DominiosRoute
+  '/enlaces': typeof EnlacesRoute
+  '/identidad': typeof IdentidadRoute
+  '/logo': typeof LogoRoute
+  '/pago': typeof PagoRoute
   '/paquetes': typeof PaquetesRoute
   '/politica-cookies': typeof PoliticaCookiesRoute
   '/servicios': typeof ServiciosRoute
+  '/tarjetas': typeof TarjetasRoute
+  '/web': typeof WebRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/banners': typeof BannersRoute
+  '/boceto': typeof BocetoRoute
   '/dominios': typeof DominiosRoute
+  '/enlaces': typeof EnlacesRoute
+  '/identidad': typeof IdentidadRoute
+  '/logo': typeof LogoRoute
+  '/pago': typeof PagoRoute
   '/paquetes': typeof PaquetesRoute
   '/politica-cookies': typeof PoliticaCookiesRoute
   '/servicios': typeof ServiciosRoute
+  '/tarjetas': typeof TarjetasRoute
+  '/web': typeof WebRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/banners': typeof BannersRoute
+  '/boceto': typeof BocetoRoute
   '/dominios': typeof DominiosRoute
+  '/enlaces': typeof EnlacesRoute
+  '/identidad': typeof IdentidadRoute
+  '/logo': typeof LogoRoute
+  '/pago': typeof PagoRoute
   '/paquetes': typeof PaquetesRoute
   '/politica-cookies': typeof PoliticaCookiesRoute
   '/servicios': typeof ServiciosRoute
+  '/tarjetas': typeof TarjetasRoute
+  '/web': typeof WebRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/dominios' | '/paquetes' | '/politica-cookies' | '/servicios'
-  fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dominios' | '/paquetes' | '/politica-cookies' | '/servicios'
-  id:
-    | '__root__'
     | '/'
+    | '/banners'
+    | '/boceto'
     | '/dominios'
+    | '/enlaces'
+    | '/identidad'
+    | '/logo'
+    | '/pago'
     | '/paquetes'
     | '/politica-cookies'
     | '/servicios'
+    | '/tarjetas'
+    | '/web'
+  fileRoutesByTo: FileRoutesByTo
+  to:
+    | '/'
+    | '/banners'
+    | '/boceto'
+    | '/dominios'
+    | '/enlaces'
+    | '/identidad'
+    | '/logo'
+    | '/pago'
+    | '/paquetes'
+    | '/politica-cookies'
+    | '/servicios'
+    | '/tarjetas'
+    | '/web'
+  id:
+    | '__root__'
+    | '/'
+    | '/banners'
+    | '/boceto'
+    | '/dominios'
+    | '/enlaces'
+    | '/identidad'
+    | '/logo'
+    | '/pago'
+    | '/paquetes'
+    | '/politica-cookies'
+    | '/servicios'
+    | '/tarjetas'
+    | '/web'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BannersRoute: typeof BannersRoute
+  BocetoRoute: typeof BocetoRoute
   DominiosRoute: typeof DominiosRoute
+  EnlacesRoute: typeof EnlacesRoute
+  IdentidadRoute: typeof IdentidadRoute
+  LogoRoute: typeof LogoRoute
+  PagoRoute: typeof PagoRoute
   PaquetesRoute: typeof PaquetesRoute
   PoliticaCookiesRoute: typeof PoliticaCookiesRoute
   ServiciosRoute: typeof ServiciosRoute
+  TarjetasRoute: typeof TarjetasRoute
+  WebRoute: typeof WebRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -95,11 +208,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/banners': {
+      id: '/banners'
+      path: '/banners'
+      fullPath: '/banners'
+      preLoaderRoute: typeof BannersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/boceto': {
+      id: '/boceto'
+      path: '/boceto'
+      fullPath: '/boceto'
+      preLoaderRoute: typeof BocetoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dominios': {
       id: '/dominios'
       path: '/dominios'
       fullPath: '/dominios'
       preLoaderRoute: typeof DominiosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/enlaces': {
+      id: '/enlaces'
+      path: '/enlaces'
+      fullPath: '/enlaces'
+      preLoaderRoute: typeof EnlacesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/identidad': {
+      id: '/identidad'
+      path: '/identidad'
+      fullPath: '/identidad'
+      preLoaderRoute: typeof IdentidadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/logo': {
+      id: '/logo'
+      path: '/logo'
+      fullPath: '/logo'
+      preLoaderRoute: typeof LogoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pago': {
+      id: '/pago'
+      path: '/pago'
+      fullPath: '/pago'
+      preLoaderRoute: typeof PagoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/paquetes': {
@@ -123,15 +278,37 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServiciosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tarjetas': {
+      id: '/tarjetas'
+      path: '/tarjetas'
+      fullPath: '/tarjetas'
+      preLoaderRoute: typeof TarjetasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/web': {
+      id: '/web'
+      path: '/web'
+      fullPath: '/web'
+      preLoaderRoute: typeof WebRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BannersRoute: BannersRoute,
+  BocetoRoute: BocetoRoute,
   DominiosRoute: DominiosRoute,
+  EnlacesRoute: EnlacesRoute,
+  IdentidadRoute: IdentidadRoute,
+  LogoRoute: LogoRoute,
+  PagoRoute: PagoRoute,
   PaquetesRoute: PaquetesRoute,
   PoliticaCookiesRoute: PoliticaCookiesRoute,
   ServiciosRoute: ServiciosRoute,
+  TarjetasRoute: TarjetasRoute,
+  WebRoute: WebRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

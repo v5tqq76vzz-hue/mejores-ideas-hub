@@ -40,3 +40,8 @@ export const mxn = (n: number) => `$${n.toLocaleString("es-MX")} MXN`;
 export const WHATSAPP_NUMBER = "527122052904";
 
 export const whatsapp = (text: string) => `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+
+export const servicePages = {
+  web: "/web", logo: "/logo", tarjetas: "/tarjetas", banners: "/banners", enlaces: "/enlaces", identidad: "/identidad",
+} as const;
+export type ServicePageId = keyof typeof servicePages;

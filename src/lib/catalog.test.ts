@@ -9,3 +9,10 @@ describe("cotización", () => {
     expect(quoteTotals([699, 299], false).deposit).toBe(499);
   });
 });
+
+describe("página de servicio", () => {
+  it("logo premium con manual suma 550", async () => {
+    const { configuredPrice } = await import("./service-details");
+    expect(configuredPrice(450, [100])).toBe(550);
+  });
+});
