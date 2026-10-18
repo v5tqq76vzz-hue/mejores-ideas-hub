@@ -37,6 +37,6 @@ export function quoteTotals(prices: number[], promo: boolean) {
 
 export const mxn = (n: number) => `$${n.toLocaleString("es-MX")} MXN`;
 
-export const WHATSAPP_URL = "https://wa.me/message/MKZYRGFYWPD2B1";
-// Short business links do not support prefilled text.
-export const whatsapp = (_text?: string) => WHATSAPP_URL;
+export const WHATSAPP_NUMBER = "527122052904";
+
+export const whatsapp = (text: string) => `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
