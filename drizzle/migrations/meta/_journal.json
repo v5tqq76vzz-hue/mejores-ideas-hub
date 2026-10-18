@@ -15,6 +15,13 @@
       "when": 1792307390224,
       "tag": "0001_create_designs",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1792307413763,
+      "tag": "0002_bootstrap_owner_admin",
+      "breakpoints": true
     }
   ]
 }
