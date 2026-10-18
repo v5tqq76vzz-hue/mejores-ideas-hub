@@ -10,6 +10,8 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BannersRouteImport } from './routes/banners'
 import { Route as BocetoRouteImport } from './routes/boceto'
 import { Route as DominiosRouteImport } from './routes/dominios'
@@ -19,13 +21,25 @@ import { Route as LogoRouteImport } from './routes/logo'
 import { Route as PagoRouteImport } from './routes/pago'
 import { Route as PaquetesRouteImport } from './routes/paquetes'
 import { Route as PoliticaCookiesRouteImport } from './routes/politica-cookies'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ServiciosRouteImport } from './routes/servicios'
 import { Route as TarjetasRouteImport } from './routes/tarjetas'
 import { Route as WebRouteImport } from './routes/web'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as AuthenticatedCuentaRouteImport } from './routes/_authenticated/cuenta'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BannersRoute = BannersRouteImport.update({
@@ -73,6 +87,11 @@ const PoliticaCookiesRoute = PoliticaCookiesRouteImport.update({
   path: '/politica-cookies',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ServiciosRoute = ServiciosRouteImport.update({
   id: '/servicios',
   path: '/servicios',
@@ -88,9 +107,20 @@ const WebRoute = WebRouteImport.update({
   path: '/web',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedCuentaRoute = AuthenticatedCuentaRouteImport.update({
+  id: '/cuenta',
+  path: '/cuenta',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/banners': typeof BannersRoute
   '/boceto': typeof BocetoRoute
   '/dominios': typeof DominiosRoute
@@ -100,12 +130,16 @@ export interface FileRoutesByFullPath {
   '/pago': typeof PagoRoute
   '/paquetes': typeof PaquetesRoute
   '/politica-cookies': typeof PoliticaCookiesRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/servicios': typeof ServiciosRoute
   '/tarjetas': typeof TarjetasRoute
   '/web': typeof WebRoute
+  '/admin': typeof AuthenticatedAdminRoute
+  '/cuenta': typeof AuthenticatedCuentaRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/banners': typeof BannersRoute
   '/boceto': typeof BocetoRoute
   '/dominios': typeof DominiosRoute
@@ -115,13 +149,18 @@ export interface FileRoutesByTo {
   '/pago': typeof PagoRoute
   '/paquetes': typeof PaquetesRoute
   '/politica-cookies': typeof PoliticaCookiesRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/servicios': typeof ServiciosRoute
   '/tarjetas': typeof TarjetasRoute
   '/web': typeof WebRoute
+  '/admin': typeof AuthenticatedAdminRoute
+  '/cuenta': typeof AuthenticatedCuentaRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
   '/banners': typeof BannersRoute
   '/boceto': typeof BocetoRoute
   '/dominios': typeof DominiosRoute
@@ -131,14 +170,18 @@ export interface FileRoutesById {
   '/pago': typeof PagoRoute
   '/paquetes': typeof PaquetesRoute
   '/politica-cookies': typeof PoliticaCookiesRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/servicios': typeof ServiciosRoute
   '/tarjetas': typeof TarjetasRoute
   '/web': typeof WebRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/_authenticated/cuenta': typeof AuthenticatedCuentaRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/auth'
     | '/banners'
     | '/boceto'
     | '/dominios'
@@ -148,12 +191,16 @@ export interface FileRouteTypes {
     | '/pago'
     | '/paquetes'
     | '/politica-cookies'
+    | '/reset-password'
     | '/servicios'
     | '/tarjetas'
     | '/web'
+    | '/admin'
+    | '/cuenta'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auth'
     | '/banners'
     | '/boceto'
     | '/dominios'
@@ -163,12 +210,17 @@ export interface FileRouteTypes {
     | '/pago'
     | '/paquetes'
     | '/politica-cookies'
+    | '/reset-password'
     | '/servicios'
     | '/tarjetas'
     | '/web'
+    | '/admin'
+    | '/cuenta'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
+    | '/auth'
     | '/banners'
     | '/boceto'
     | '/dominios'
@@ -178,13 +230,18 @@ export interface FileRouteTypes {
     | '/pago'
     | '/paquetes'
     | '/politica-cookies'
+    | '/reset-password'
     | '/servicios'
     | '/tarjetas'
     | '/web'
+    | '/_authenticated/admin'
+    | '/_authenticated/cuenta'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
   BannersRoute: typeof BannersRoute
   BocetoRoute: typeof BocetoRoute
   DominiosRoute: typeof DominiosRoute
@@ -194,6 +251,7 @@ export interface RootRouteChildren {
   PagoRoute: typeof PagoRoute
   PaquetesRoute: typeof PaquetesRoute
   PoliticaCookiesRoute: typeof PoliticaCookiesRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   ServiciosRoute: typeof ServiciosRoute
   TarjetasRoute: typeof TarjetasRoute
   WebRoute: typeof WebRoute
@@ -206,6 +264,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/banners': {
@@ -271,6 +343,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PoliticaCookiesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/servicios': {
       id: '/servicios'
       path: '/servicios'
@@ -292,11 +371,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WebRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/cuenta': {
+      id: '/_authenticated/cuenta'
+      path: '/cuenta'
+      fullPath: '/cuenta'
+      preLoaderRoute: typeof AuthenticatedCuentaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+  AuthenticatedCuentaRoute: typeof AuthenticatedCuentaRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+  AuthenticatedCuentaRoute: AuthenticatedCuentaRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
   BannersRoute: BannersRoute,
   BocetoRoute: BocetoRoute,
   DominiosRoute: DominiosRoute,
@@ -306,6 +414,7 @@ const rootRouteChildren: RootRouteChildren = {
   PagoRoute: PagoRoute,
   PaquetesRoute: PaquetesRoute,
   PoliticaCookiesRoute: PoliticaCookiesRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   ServiciosRoute: ServiciosRoute,
   TarjetasRoute: TarjetasRoute,
   WebRoute: WebRoute,
