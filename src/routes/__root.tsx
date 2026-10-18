@@ -13,6 +13,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { CartProvider } from "@/lib/cart";
+import { AuthProvider, useAuth } from "@/lib/auth";
 import { SiteShell } from "@/components/site/SiteShell";
 
 function NotFoundComponent() {
@@ -119,11 +120,28 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <CartProvider>
-        <SiteShell>
-          <Outlet />
-        </SiteShell>
-      </CartProvider>
+      <AuthProvider>
+        <AfterLogin />
+        <CartProvider>
+          <SiteShell>
+            <Outlet />
+          </SiteShell>
+        </CartProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
+}
+
+function AfterLogin() {
+  const { session } = useAuth();
+  const router = useRouter();
+  useEffect(() => {
+    if (!session) return;
+    const dest = sessionStorage.getItem("dmd_after_login");
+    if (dest && dest.startsWith("/") && !dest.startsWith("//")) {
+      sessionStorage.removeItem("dmd_after_login");
+      router.navigate({ to: dest });
+    }
+  }, [session, router]);
+  return null;
 }

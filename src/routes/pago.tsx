@@ -1,4 +1,6 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/lib/auth";
 import { useState } from "react";
 import { PageHero } from "@/components/site/SiteShell";
 import { mxn, quoteTotals, whatsapp, PROMO_CODE } from "@/lib/catalog";
@@ -18,6 +20,10 @@ export const Route = createFileRoute("/pago")({
 
 function Pago() {
   const cart = useCart();
+  const { session } = useAuth();
+  const nav = useNavigate();
+  const [saving, setSaving] = useState(false);
+  const [err, setErr] = useState("");
   const [promo, setPromo] = useState(false);
   const [code, setCode] = useState("");
   const [c, setC] = useState({ nombre: "", tel: "", correo: "", metodo: "Transferencia" });
@@ -25,6 +31,21 @@ function Pago() {
   const ready = cart.items.length > 0 && c.nombre.trim() && c.tel.trim().length >= 10;
   const msg = `Hola DMD, quiero confirmar mi pedido:\n${cart.items.map((i) => `• ${i.name} – ${mxn(i.price)}`).join("\n")}\n${promo ? `Descuento ${PROMO_CODE}: -${mxn(t.discount)}\n` : ""}Total: ${mxn(t.total)}\nAnticipo 50%: ${mxn(t.deposit)}\nPago por: ${c.metodo}\n\nNombre: ${c.nombre}\nTeléfono: ${c.tel}\nCorreo: ${c.correo || "-"}`;
   const field = "w-full rounded-xl border bg-background px-4 py-3";
+
+  const confirm = async () => {
+    if (!session || !ready) return;
+    setSaving(true); setErr("");
+    const { data, error } = await supabase.from("orders").insert({
+      user_id: session.user.id, customer_name: c.nombre.trim(), phone: c.tel.trim(), email: c.correo.trim() || null,
+      items: cart.items, subtotal: t.subtotal, discount: t.discount, total: t.total, deposit: t.deposit, payment_method: c.metodo,
+    }).select("folio").single();
+    setSaving(false);
+    if (error) { setErr("No pudimos guardar tu pedido. Intenta de nuevo."); return; }
+    const url = whatsapp(`Folio #DMD-${String(data.folio).padStart(4, "0")}\n${msg}`);
+    cart.clear();
+    window.open(url, "_blank");
+    nav({ to: "/cuenta" });
+  };
 
   if (cart.items.length === 0) {
     return (
@@ -77,11 +98,18 @@ function Pago() {
             <div className="flex justify-between pt-2 text-lg font-bold"><dt>Total</dt><dd>{mxn(t.total)}</dd></div>
             <div className="flex justify-between font-semibold text-primary"><dt>Anticipo hoy</dt><dd>{mxn(t.deposit)}</dd></div>
           </dl>
-          <a href={ready ? whatsapp(msg) : undefined} target="_blank" rel="noreferrer" aria-disabled={!ready}
-            className={`mt-5 block rounded-full bg-success py-3 text-center font-semibold text-primary-foreground ${ready ? "" : "pointer-events-none opacity-50"}`}>
-            Confirmar pedido por WhatsApp
-          </a>
-          {!ready && <p className="mt-2 text-center text-xs text-muted-foreground">Escribe tu nombre y teléfono para continuar.</p>}
+          {session ? (
+            <button onClick={confirm} disabled={!ready || saving}
+              className="mt-5 block w-full rounded-full bg-success py-3 text-center font-semibold text-primary-foreground disabled:opacity-50">
+              {saving ? "Guardando…" : "Confirmar pedido por WhatsApp"}
+            </button>
+          ) : (
+            <Link to="/auth" search={{ redirect: "/pago" }} className="mt-5 block rounded-full bg-primary py-3 text-center font-semibold text-primary-foreground">
+              Inicia sesión para confirmar
+            </Link>
+          )}
+          {session && !ready && <p className="mt-2 text-center text-xs text-muted-foreground">Escribe tu nombre y teléfono para continuar.</p>}
+          {err && <p className="mt-2 text-center text-xs text-destructive">{err}</p>}
         </aside>
       </div>
     </>

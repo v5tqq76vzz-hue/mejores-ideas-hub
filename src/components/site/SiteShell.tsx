@@ -3,6 +3,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import logo from "@/assets/logo-dmd.png.asset.json";
 import { useCart } from "@/lib/cart";
 import { whatsapp } from "@/lib/catalog";
+import { useAuth } from "@/lib/auth";
 
 const nav = [
   { to: "/", label: "Inicio" },
@@ -15,6 +16,7 @@ const nav = [
 function Header() {
   const [open, setOpen] = useState(false);
   const { items } = useCart();
+  const { session } = useAuth();
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur-xl">
       <div className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 py-3 md:flex md:justify-between">
@@ -35,6 +37,8 @@ function Header() {
           ))}
         </nav>
         <div className="flex items-center gap-2">
+          <Link to={session ? "/cuenta" : "/auth"} aria-label={session ? "Mi cuenta" : "Entrar"}
+            className="hidden rounded-full border px-4 py-2 text-sm font-semibold sm:inline-flex">{session ? "Mi cuenta" : "Entrar"}</Link>
           <Link to="/servicios" className="relative inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-elegant">
             Cotizar
             {items.length > 0 && <span className="grid h-5 min-w-5 place-items-center rounded-full bg-accent px-1 text-xs text-accent-foreground">{items.length}</span>}
@@ -49,6 +53,7 @@ function Header() {
           {nav.map((n) => (
             <Link key={n.to} to={n.to} onClick={() => setOpen(false)} className="block rounded-lg px-3 py-3 font-medium">{n.label}</Link>
           ))}
+          <Link to={session ? "/cuenta" : "/auth"} onClick={() => setOpen(false)} className="block rounded-lg px-3 py-3 font-semibold text-primary">{session ? "Mi cuenta" : "Iniciar sesión"}</Link>
         </nav>
       )}
     </header>
