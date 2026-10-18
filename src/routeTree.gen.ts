@@ -10,33 +10,80 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DominiosRouteImport } from './routes/dominios'
+import { Route as PaquetesRouteImport } from './routes/paquetes'
+import { Route as PoliticaCookiesRouteImport } from './routes/politica-cookies'
+import { Route as ServiciosRouteImport } from './routes/servicios'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DominiosRoute = DominiosRouteImport.update({
+  id: '/dominios',
+  path: '/dominios',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PaquetesRoute = PaquetesRouteImport.update({
+  id: '/paquetes',
+  path: '/paquetes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PoliticaCookiesRoute = PoliticaCookiesRouteImport.update({
+  id: '/politica-cookies',
+  path: '/politica-cookies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServiciosRoute = ServiciosRouteImport.update({
+  id: '/servicios',
+  path: '/servicios',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dominios': typeof DominiosRoute
+  '/paquetes': typeof PaquetesRoute
+  '/politica-cookies': typeof PoliticaCookiesRoute
+  '/servicios': typeof ServiciosRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/dominios': typeof DominiosRoute
+  '/paquetes': typeof PaquetesRoute
+  '/politica-cookies': typeof PoliticaCookiesRoute
+  '/servicios': typeof ServiciosRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/dominios': typeof DominiosRoute
+  '/paquetes': typeof PaquetesRoute
+  '/politica-cookies': typeof PoliticaCookiesRoute
+  '/servicios': typeof ServiciosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    '/' | '/dominios' | '/paquetes' | '/politica-cookies' | '/servicios'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/dominios' | '/paquetes' | '/politica-cookies' | '/servicios'
+  id:
+    | '__root__'
+    | '/'
+    | '/dominios'
+    | '/paquetes'
+    | '/politica-cookies'
+    | '/servicios'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DominiosRoute: typeof DominiosRoute
+  PaquetesRoute: typeof PaquetesRoute
+  PoliticaCookiesRoute: typeof PoliticaCookiesRoute
+  ServiciosRoute: typeof ServiciosRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +95,43 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dominios': {
+      id: '/dominios'
+      path: '/dominios'
+      fullPath: '/dominios'
+      preLoaderRoute: typeof DominiosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/paquetes': {
+      id: '/paquetes'
+      path: '/paquetes'
+      fullPath: '/paquetes'
+      preLoaderRoute: typeof PaquetesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/politica-cookies': {
+      id: '/politica-cookies'
+      path: '/politica-cookies'
+      fullPath: '/politica-cookies'
+      preLoaderRoute: typeof PoliticaCookiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/servicios': {
+      id: '/servicios'
+      path: '/servicios'
+      fullPath: '/servicios'
+      preLoaderRoute: typeof ServiciosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DominiosRoute: DominiosRoute,
+  PaquetesRoute: PaquetesRoute,
+  PoliticaCookiesRoute: PoliticaCookiesRoute,
+  ServiciosRoute: ServiciosRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
