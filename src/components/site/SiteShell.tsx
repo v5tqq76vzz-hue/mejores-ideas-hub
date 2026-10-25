@@ -11,6 +11,7 @@ const nav = [
   { to: "/paquetes", label: "Paquetes" },
   { to: "/dominios", label: "Dominios" },
   { to: "/boceto", label: "Diseñar" },
+  { to: "/estudio", label: "Estudio creativo" },
 ] as const;
 
 function Header() {
@@ -19,7 +20,7 @@ function Header() {
   const { session } = useAuth();
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur-xl">
-      <div className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 py-3 md:flex md:justify-between">
+      <div className="mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 py-3 xl:flex xl:justify-between">
         <Link to="/" className="flex min-w-0 items-center gap-3">
           <img src={logo.url} alt="DMD" className="h-9 w-9 shrink-0 rounded-lg object-contain" />
           <div className="min-w-0 leading-tight">
@@ -27,10 +28,10 @@ function Header() {
             <div className="truncate text-xs text-muted-foreground">Agencia digital</div>
           </div>
         </Link>
-        <nav className="hidden items-center gap-1 md:flex">
+        <nav className="hidden items-center gap-1 xl:flex">
           {nav.map((n) => (
             <Link key={n.to} to={n.to} activeOptions={{ exact: true }}
-              className="rounded-full px-4 py-2 text-sm font-medium text-muted-foreground transition hover:text-foreground"
+              className="rounded-full px-3 py-2 text-sm font-medium text-muted-foreground transition hover:text-foreground"
               activeProps={{ className: "bg-secondary text-secondary-foreground" }}>
               {n.label}
             </Link>
@@ -43,13 +44,13 @@ function Header() {
             Cotizar
             {items.length > 0 && <span className="grid h-5 min-w-5 place-items-center rounded-full bg-accent px-1 text-xs text-accent-foreground">{items.length}</span>}
           </Link>
-          <button aria-label="Menú" onClick={() => setOpen(!open)} className="grid h-10 w-10 place-items-center rounded-full border md:hidden">
+          <button aria-label="Menú" aria-expanded={open} onClick={() => setOpen(!open)} className="grid h-10 w-10 place-items-center rounded-full border xl:hidden">
             {open ? "✕" : "☰"}
           </button>
         </div>
       </div>
       {open && (
-        <nav className="border-t bg-background px-5 py-3 md:hidden">
+        <nav className="border-t bg-background px-5 py-3 xl:hidden">
           {nav.map((n) => (
             <Link key={n.to} to={n.to} onClick={() => setOpen(false)} className="block rounded-lg px-3 py-3 font-medium">{n.label}</Link>
           ))}
@@ -81,6 +82,7 @@ function Footer() {
           <Link to="/banners">Banners</Link>
           <Link to="/enlaces">Bio Links</Link>
           <Link to="/boceto">Diseñar boceto</Link>
+          <Link to="/estudio">Estudio creativo</Link>
           <Link to="/servicios">Servicios</Link>
           <Link to="/paquetes">Paquetes</Link>
           <Link to="/dominios">Dominios</Link>

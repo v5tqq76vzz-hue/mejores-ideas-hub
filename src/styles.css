@@ -103,6 +103,11 @@
   }
   h1, h2, h3, h4 {
     font-family: var(--font-display);
-    letter-spacing: -0.02em;
+    letter-spacing: 0;
   }
 }
+
+.studio-preview { background-image: linear-gradient(135deg, var(--secondary), var(--muted)); }
+.editor-workspace { background-color: var(--muted); }
+.editor-artboard { position: relative; flex-shrink: 0; overflow: hidden; transform-origin: top left; box-shadow: var(--shadow-card); }
+.editor-element { position: absolute; cursor: move; touch-action: none; white-space: pre-wrap; overflow-wrap: break-word; line-height: 1.2; user-select: none; }
