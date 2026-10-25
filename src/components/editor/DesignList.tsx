@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { renderToCanvas, type Design } from "@/lib/editor";
+import { Button } from "@/components/ui/button";
 
 export const DESIGN_STATUSES = ["nuevo", "revisado", "en proceso", "terminado"];
 
@@ -15,12 +16,16 @@ function Thumb({ d }: { d: Design }) {
 export function DesignList({ admin, userId }: { admin?: boolean; userId?: string | undefined }) {
   const qc = useQueryClient();
   const key = ["designs", admin ? "all" : userId];
-  const { data = [], isLoading } = useQuery({
+  const [errorMessage, setErrorMessage] = useState("");
+  const { data = [], isLoading, isError } = useQuery({
     queryKey: key,
     enabled: admin || !!userId,
     queryFn: async () => {
       let q = supabase.from("designs").select("*").order("updated_at", { ascending: false });
-      if (!admin) q = q.eq("user_id", userId!);
+      if (!admin) {
+        if (!userId) return [];
+        q = q.eq("user_id", userId);
+      }
       const { data, error } = await q;
       if (error) throw error;
       if (!admin || data.length === 0) return data.map((r) => ({ ...r, owner: "" }));
@@ -29,10 +34,11 @@ export function DesignList({ admin, userId }: { admin?: boolean; userId?: string
       return data.map((r) => ({ ...r, owner: m.get(r.user_id) || "Cliente" }));
     },
   });
-  const setStatus = async (id: string, status: string) => { await supabase.from("designs").update({ status }).eq("id", id); qc.invalidateQueries({ queryKey: key }); };
-  const remove = async (id: string) => { if (!confirm("¿Eliminar este boceto?")) return; await supabase.from("designs").delete().eq("id", id); qc.invalidateQueries({ queryKey: key }); };
+  const setStatus = async (id: string, status: string) => { const { error } = await supabase.from("designs").update({ status }).eq("id", id); if (error) { setErrorMessage("No se pudo cambiar el estado."); return; } qc.invalidateQueries({ queryKey: key }); };
+  const remove = async (id: string) => { if (!confirm("¿Eliminar este boceto?")) return; const { error } = await supabase.from("designs").delete().eq("id", id); if (error) { setErrorMessage("No se pudo eliminar el diseño."); return; } qc.invalidateQueries({ queryKey: key }); };
 
   if (isLoading) return <p className="mt-4 text-muted-foreground">Cargando…</p>;
+  if (isError) return <p role="alert" className="mt-4 text-destructive">No pudimos cargar tus diseños. Comprueba tu conexión e inténtalo nuevamente.</p>;
   if (data.length === 0) return (
     <div className="mt-4 rounded-2xl border bg-card p-8 text-center">
       <p className="text-muted-foreground">{admin ? "Aún no hay bocetos guardados." : "Aún no tienes bocetos."}</p>
@@ -41,8 +47,9 @@ export function DesignList({ admin, userId }: { admin?: boolean; userId?: string
   );
   return (
     <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {errorMessage && <p role="alert" className="col-span-full text-destructive">{errorMessage}</p>}
       {data.map((r) => (
-        <div key={r.id} className="overflow-hidden rounded-2xl border bg-card shadow-card">
+        <div key={r.id} className="overflow-hidden rounded-lg border bg-card shadow-card">
           <Thumb d={r.data as unknown as Design} />
           <div className="space-y-2 p-4">
             <div className="truncate font-bold">{r.title}</div>
@@ -56,7 +63,7 @@ export function DesignList({ admin, userId }: { admin?: boolean; userId?: string
               ) : (
                 <>
                   <span className="rounded-full bg-secondary px-2 py-1 text-xs capitalize">{r.status}</span>
-                  <button onClick={() => remove(r.id)} className="text-xs text-destructive">Eliminar</button>
+                  <Button variant="ghost" size="sm" onClick={() => remove(r.id)} className="text-destructive">Eliminar</Button>
                 </>
               )}
             </div>

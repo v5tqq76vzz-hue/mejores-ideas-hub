@@ -16,6 +16,7 @@ import { Route as BannersRouteImport } from './routes/banners'
 import { Route as BocetoRouteImport } from './routes/boceto'
 import { Route as DominiosRouteImport } from './routes/dominios'
 import { Route as EnlacesRouteImport } from './routes/enlaces'
+import { Route as EstudioRouteImport } from './routes/estudio'
 import { Route as IdentidadRouteImport } from './routes/identidad'
 import { Route as LogoRouteImport } from './routes/logo'
 import { Route as PagoRouteImport } from './routes/pago'
@@ -60,6 +61,11 @@ const DominiosRoute = DominiosRouteImport.update({
 const EnlacesRoute = EnlacesRouteImport.update({
   id: '/enlaces',
   path: '/enlaces',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EstudioRoute = EstudioRouteImport.update({
+  id: '/estudio',
+  path: '/estudio',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IdentidadRoute = IdentidadRouteImport.update({
@@ -125,6 +131,7 @@ export interface FileRoutesByFullPath {
   '/boceto': typeof BocetoRoute
   '/dominios': typeof DominiosRoute
   '/enlaces': typeof EnlacesRoute
+  '/estudio': typeof EstudioRoute
   '/identidad': typeof IdentidadRoute
   '/logo': typeof LogoRoute
   '/pago': typeof PagoRoute
@@ -144,6 +151,7 @@ export interface FileRoutesByTo {
   '/boceto': typeof BocetoRoute
   '/dominios': typeof DominiosRoute
   '/enlaces': typeof EnlacesRoute
+  '/estudio': typeof EstudioRoute
   '/identidad': typeof IdentidadRoute
   '/logo': typeof LogoRoute
   '/pago': typeof PagoRoute
@@ -165,6 +173,7 @@ export interface FileRoutesById {
   '/boceto': typeof BocetoRoute
   '/dominios': typeof DominiosRoute
   '/enlaces': typeof EnlacesRoute
+  '/estudio': typeof EstudioRoute
   '/identidad': typeof IdentidadRoute
   '/logo': typeof LogoRoute
   '/pago': typeof PagoRoute
@@ -186,6 +195,7 @@ export interface FileRouteTypes {
     | '/boceto'
     | '/dominios'
     | '/enlaces'
+    | '/estudio'
     | '/identidad'
     | '/logo'
     | '/pago'
@@ -205,6 +215,7 @@ export interface FileRouteTypes {
     | '/boceto'
     | '/dominios'
     | '/enlaces'
+    | '/estudio'
     | '/identidad'
     | '/logo'
     | '/pago'
@@ -225,6 +236,7 @@ export interface FileRouteTypes {
     | '/boceto'
     | '/dominios'
     | '/enlaces'
+    | '/estudio'
     | '/identidad'
     | '/logo'
     | '/pago'
@@ -246,6 +258,7 @@ export interface RootRouteChildren {
   BocetoRoute: typeof BocetoRoute
   DominiosRoute: typeof DominiosRoute
   EnlacesRoute: typeof EnlacesRoute
+  EstudioRoute: typeof EstudioRoute
   IdentidadRoute: typeof IdentidadRoute
   LogoRoute: typeof LogoRoute
   PagoRoute: typeof PagoRoute
@@ -306,6 +319,13 @@ declare module '@tanstack/react-router' {
       path: '/enlaces'
       fullPath: '/enlaces'
       preLoaderRoute: typeof EnlacesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/estudio': {
+      id: '/estudio'
+      path: '/estudio'
+      fullPath: '/estudio'
+      preLoaderRoute: typeof EstudioRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/identidad': {
@@ -409,6 +429,7 @@ const rootRouteChildren: RootRouteChildren = {
   BocetoRoute: BocetoRoute,
   DominiosRoute: DominiosRoute,
   EnlacesRoute: EnlacesRoute,
+  EstudioRoute: EstudioRoute,
   IdentidadRoute: IdentidadRoute,
   LogoRoute: LogoRoute,
   PagoRoute: PagoRoute,
