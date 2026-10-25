@@ -10,6 +10,13 @@ export const FORMATS = {
   tarjeta: { label: "Tarjeta 9:5", w: 1050, h: 600 },
   banner: { label: "Banner 16:9", w: 1600, h: 900 },
   historia: { label: "Historia 9:16", w: 1080, h: 1920 },
+  presentacion: { label: "Presentación 16:9", w: 1920, h: 1080 },
+  documento: { label: "Documento A4", w: 794, h: 1123 },
+  video: { label: "Portada de video 16:9", w: 1920, h: 1080 },
+  sitio: { label: "Maqueta web", w: 1440, h: 1024 },
+  pizarra: { label: "Pizarra", w: 1600, h: 1200 },
+  flyer: { label: "Flyer vertical", w: 1080, h: 1350 },
+  invitacion: { label: "Invitación", w: 1080, h: 1350 },
 } as const;
 export type FormatKey = keyof typeof FORMATS | "custom";
 
@@ -57,11 +64,30 @@ export const TEMPLATES: Template[] = [
 
 export const blank = (w: number, h: number): Design => ({ w, h, bg: "#ffffff", els: [] });
 
+export function duplicateElement(d: Design, id: string): Design {
+  const source = d.els.find((el) => el.id === id);
+  if (!source) return d;
+  return { ...d, els: [...d.els, { ...source, id: uid(), x: source.x + 24, y: source.y + 24 }] };
+}
+
+export function textLines(text: string, width: number, measure: (s: string) => number): string[] {
+  return text.split("\n").flatMap((paragraph) => {
+    const lines: string[] = []; let line = "";
+    for (const word of paragraph.split(" ")) {
+      const next = line ? `${line} ${word}` : word;
+      if (line && measure(next) > width) { lines.push(line); line = word; }
+      else line = next;
+    }
+    lines.push(line); return lines;
+  });
+}
+
 /** Draws the design to a canvas for PNG export / thumbnails. */
 export function renderToCanvas(d: Design, scale = 1): HTMLCanvasElement {
   const c = document.createElement("canvas");
   c.width = d.w * scale; c.height = d.h * scale;
-  const ctx = c.getContext("2d")!;
+  const ctx = c.getContext("2d");
+  if (!ctx) throw new Error("No se pudo crear la imagen.");
   ctx.scale(scale, scale);
   ctx.fillStyle = d.bg; ctx.fillRect(0, 0, d.w, d.h);
   for (const e of d.els) {
@@ -74,7 +100,7 @@ export function renderToCanvas(d: Design, scale = 1): HTMLCanvasElement {
       ctx.textBaseline = "top";
       const al = e.align ?? "left"; ctx.textAlign = al;
       const x = al === "center" ? e.x + e.w / 2 : al === "right" ? e.x + e.w : e.x;
-      (e.text ?? "").split("\n").forEach((line, i) => ctx.fillText(line, x, e.y + i * size * 1.2, e.w));
+      textLines(e.text ?? "", e.w, (s) => ctx.measureText(s).width).forEach((line, i) => ctx.fillText(line, x, e.y + i * size * 1.2, e.w));
     }
   }
   return c;
